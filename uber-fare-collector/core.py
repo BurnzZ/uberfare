@@ -20,17 +20,15 @@ def get_read_only_client(api_key):
     return UberRidesClient(session)
 
 
-def _tokenizer(data):
-    return [token.strip() for token in data.split(',')]
-
-
 def create_coordinates(origin, dest):
 
-    origin_tok = _tokenizer(origin)
-    dest_tok = _tokenizer(dest)
+    tokenizer = lambda data: [token.strip() for token in data.split(',')]
 
-    return Coordinates(origin_tok[0], origin_tok[1],
-                       dest_tok[0], dest_tok[1])
+    origin_tokens = tokenizer(origin)
+    dest_tokens = tokenizer(dest)
+
+    return Coordinates(origin_tokens[0], origin_tokens[1],
+                       dest_tokens[0], dest_tokens[1])
 
 
 def write_to_csv(list_of_dicts, output_file):

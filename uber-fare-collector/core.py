@@ -45,6 +45,8 @@ def write_to_csv(list_of_dicts, output_file):
         dict_writer = DictWriter(f, list_of_dicts[0].keys())
         dict_writer.writerows(list_of_dicts)
 
+    print("{} | Data collected and saved: {}".format(timestamp, output_file))
+
 
 def collector(client, coordinates):
 
@@ -63,8 +65,5 @@ def fare_estimate(api_key, origin, dest, output_file, check_interval):
 
     while True:
         raw_data = collector(client, coordinates)
-        print(raw_data.json)
-
         write_to_csv(raw_data.json['prices'], output_file)
-
         sleep(check_interval)

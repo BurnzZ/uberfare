@@ -1,5 +1,6 @@
-
 # Created by https://www.gitignore.io/api/vim,osx,sass,linux,emacs,python,windows,sublimetext,visualstudiocode
+
+*.csv
 
 ### Emacs ###
 # -*- mode: gitignore; -*-

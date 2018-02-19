@@ -13,3 +13,5 @@ click = "*"
 
 [dev-packages]
 
+pytest = "*"
+"flake8" = "*"

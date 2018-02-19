@@ -2,8 +2,8 @@
 
 import re
 import click
-from environments import UBER_SERVER_TOKEN
-from core import fare_estimate
+from .environments import UBER_SERVER_TOKEN
+from .core import fare_estimate
 
 
 def validate_coordinate(ctx, param, value):

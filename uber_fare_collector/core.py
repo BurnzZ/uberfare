@@ -31,31 +31,37 @@ def create_coordinates(origin, dest):
                        dest_tokens[0], dest_tokens[1])
 
 
-def write_to_csv(list_of_dicts, output_file):
-
-    if len(list_of_dicts) == 0:
-        return
+def add_timestamp(list_of_dicts):
 
     timestamp = datetime.now().isoformat()
 
     for d in list_of_dicts:
         d.update({'timestamp': timestamp})
+    
+    return list_of_dicts
+
+
+def write_to_csv(list_of_dicts, output_file):
+
+    if len(list_of_dicts) == 0:
+        return
 
     with open(output_file, 'a') as f:
         dict_writer = DictWriter(f, list_of_dicts[0].keys())
         dict_writer.writerows(list_of_dicts)
 
-    print("{} | Data collected and saved: {}".format(timestamp, output_file))
+    print("{} | Data collected and saved: {}".format(datetime.now().isoformat(),
+          output_file))
 
 
-def collector(client, coordinates):
+def price_collector(client, coordinates):
 
     return client.get_price_estimates(
         start_latitude=coordinates.start_latitude,
         start_longitude=coordinates.start_longitude,
         end_latitude=coordinates.end_latitude,
         end_longitude=coordinates.end_longitude
-    )
+    ).json['prices']
 
 
 def fare_estimate(api_key, origin, dest, output_file, check_interval):
@@ -64,6 +70,7 @@ def fare_estimate(api_key, origin, dest, output_file, check_interval):
     coordinates = create_coordinates(origin, dest)
 
     while True:
-        raw_data = collector(client, coordinates)
-        write_to_csv(raw_data.json['prices'], output_file)
+        raw_data = price_collector(client, coordinates)
+        data = add_timestamp(raw_data)
+        write_to_csv(data, output_file)
         sleep(check_interval)

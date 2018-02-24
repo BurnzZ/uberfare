@@ -1,9 +1,9 @@
 import unittest.mock as mock
-import uber_fare_collector.core as core
+import uberfare.core as core
 
 
-@mock.patch('uber_fare_collector.core.UberRidesClient')
-@mock.patch('uber_fare_collector.core.Session')
+@mock.patch('uberfare.core.UberRidesClient')
+@mock.patch('uberfare.core.Session')
 def test_get_read_only_client(mock_session, mock_client):
     """It should correctly call the Uber Session and pass it to the Client."""
 
@@ -28,7 +28,7 @@ def test_create_coordinates():
     assert result.end_longitude == '4.4'
 
 
-@mock.patch('uber_fare_collector.core.datetime')
+@mock.patch('uberfare.core.datetime')
 def test_add_timestamp(mock_datetime):
     """It should return a new list of dicts with a timestamp in each entry."""
 
@@ -46,7 +46,7 @@ def test_add_timestamp(mock_datetime):
     assert result != list_of_dicts
 
 
-@mock.patch('uber_fare_collector.core.DictWriter')
+@mock.patch('uberfare.core.DictWriter')
 def test_write_to_csv(mock_dictwriter):
     """It should write the data in CSV format with an additional timestamp."""
 
@@ -57,7 +57,7 @@ def test_write_to_csv(mock_dictwriter):
     output_file = 'test-out.csv'
 
     m = mock.mock_open()
-    with mock.patch('uber_fare_collector.core.open', m):
+    with mock.patch('uberfare.core.open', m):
         core.write_to_csv(data, output_file)
 
         m.assert_called_once_with(output_file, 'w')

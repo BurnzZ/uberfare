@@ -49,13 +49,13 @@ CLI
 
     >>> # To get the fare estimate, provide the arguments: origin, destination, output-file path
     >>> # Where origin and destination are in the LATITUDE,LONGITUDE format
-    >>> uber-fare-collector estimate 14.55,121.05 14.52,121.01 output.csv
+    >>> uberfare estimate 14.55,121.05 14.52,121.01 output.csv
 
     >>> # You can override the default check interval of 120 seconds via:
-    >>> uber-fare-collector --check-interval 5 estimate 14.55,121.05 14.52,121.01 output.csv
+    >>> uberfare --check-interval 5 estimate 14.55,121.05 14.52,121.01 output.csv
 
     >>> # You can override the 'UBER_SERVER_TOKEN' env variable in the CLI via:
-    >>> uber-fare-collector --server_token <SERVER API KEY> estimate 14.55,121.05 14.52,121.01 output.csv
+    >>> uberfare --server_token <SERVER API KEY> estimate 14.55,121.05 14.52,121.01 output.csv
 
 Notes
 ~~~~~

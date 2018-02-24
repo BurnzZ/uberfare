@@ -30,7 +30,7 @@ def test_create_coordinates():
 
 @mock.patch('uber_fare_collector.core.datetime')
 def test_add_timestamp(mock_datetime):
-    """It should add a timestamp key to each dict in the list."""
+    """It should return a new list of dicts with a timestamp in each entry."""
 
     mock_datetime.now().isoformat.return_value = 'T123'
 
@@ -42,6 +42,8 @@ def test_add_timestamp(mock_datetime):
         {'key1': 1, 'timestamp': 'T123'},
         {'key2': 2, 'timestamp': 'T123'}
     ]
+
+    assert result != list_of_dicts
 
 
 @mock.patch('uber_fare_collector.core.DictWriter')

@@ -1,4 +1,5 @@
 from collections import namedtuple
+from copy import deepcopy
 from csv import DictWriter
 from datetime import datetime
 from time import sleep
@@ -34,12 +35,14 @@ def create_coordinates(origin, dest):
 
 def add_timestamp(list_of_dicts):
 
-    timestamp = datetime.now().isoformat()
+    timestamp = {'timestamp': datetime.now().isoformat()}
 
-    for d in list_of_dicts:
-        d.update({'timestamp': timestamp})
+    list_copy = deepcopy(list_of_dicts)
 
-    return list_of_dicts
+    for d in list_copy:
+        d.update(timestamp)
+
+    return list_copy
 
 
 def write_to_csv(list_of_dicts, output_file):

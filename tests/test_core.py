@@ -64,7 +64,7 @@ def test_write_to_csv(mock_dictwriter):
         mock_dictwriter().writerows.assert_called_once_with(data)
 
 
-def test_price_collector():
+def test_collect_price():
     """It should call the correct method of the passed client using the passed
     coordinates value."""
 
@@ -73,7 +73,7 @@ def test_price_collector():
             'prices': 'this should be returned'}
 
     coordinates = core.Coordinates(1, 2, 3, 4)
-    result = core.price_collector(mock_client, coordinates)
+    result = core.collect_price(mock_client, coordinates)
 
     mock_client.get_price_estimates.assert_called_once_with(
         start_latitude=coordinates.start_latitude,

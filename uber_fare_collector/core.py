@@ -1,7 +1,7 @@
 from collections import namedtuple
-from time import sleep
-from datetime import datetime
 from csv import DictWriter
+from datetime import datetime
+from time import sleep
 from uber_rides.session import Session
 from uber_rides.client import UberRidesClient
 
@@ -38,7 +38,7 @@ def add_timestamp(list_of_dicts):
 
     for d in list_of_dicts:
         d.update({'timestamp': timestamp})
-    
+
     return list_of_dicts
 
 
@@ -51,11 +51,11 @@ def write_to_csv(list_of_dicts, output_file):
         dict_writer = DictWriter(f, list_of_dicts[0].keys())
         dict_writer.writerows(list_of_dicts)
 
-    print("{} | Data collected and saved: {}".format(datetime.now().isoformat(),
+    print("{} | Data collected: {}".format(datetime.now().isoformat(),
           output_file))
 
 
-def price_collector(client, coordinates):
+def collect_price(client, coordinates):
 
     return client.get_price_estimates(
         start_latitude=coordinates.start_latitude,
@@ -71,7 +71,7 @@ def fare_estimate(api_key, origin, dest, output_file, check_interval):
     coordinates = create_coordinates(origin, dest)
 
     while True:
-        raw_data = price_collector(client, coordinates)
+        raw_data = collect_price(client, coordinates)
         data = add_timestamp(raw_data)
         write_to_csv(data, output_file)
         sleep(check_interval)

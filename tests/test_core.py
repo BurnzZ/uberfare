@@ -1,12 +1,13 @@
 import unittest.mock as mock
 import uber_fare_collector.core as core
 
+
 @mock.patch('uber_fare_collector.core.UberRidesClient')
 @mock.patch('uber_fare_collector.core.Session')
 def test_get_read_only_client(mock_session, mock_client):
     """It should correctly call the Uber Session and pass it to the Client."""
 
-    result = core.get_read_only_client('APIKEY123')
+    core.get_read_only_client('APIKEY123')
 
     mock_session.assert_called_once_with(server_token='APIKEY123')
     mock_client.assert_called_once_with(mock_session())
@@ -34,11 +35,11 @@ def test_add_timestamp(mock_datetime):
     mock_datetime.now().isoformat.return_value = 'T123'
 
     list_of_dicts = [{'key1': 1}, {'key2': 2}]
-    
+
     result = core.add_timestamp(list_of_dicts)
 
     assert result == [
-        {'key1': 1, 'timestamp': 'T123'}, 
+        {'key1': 1, 'timestamp': 'T123'},
         {'key2': 2, 'timestamp': 'T123'}
     ]
 
@@ -53,10 +54,10 @@ def test_write_to_csv(mock_dictwriter):
     ]
     output_file = 'test-out.csv'
 
-    m = mock.mock_open() 
+    m = mock.mock_open()
     with mock.patch('uber_fare_collector.core.open', m):
         core.write_to_csv(data, output_file)
-        
+
         m.assert_called_once_with(output_file, 'a')
 
         mock_dictwriter.assert_called_once_with(m(), data[0].keys())
@@ -67,14 +68,11 @@ def test_price_collector():
     """It should call the correct method of the passed client using the passed
     coordinates value."""
 
-    coordinates = core.Coordinates(1, 2, 3, 4)
-
     mock_client = mock.Mock()
-    mock_return = mock.PropertyMock()
+    mock_client.get_price_estimates.return_value.json = {
+            'prices': 'this should be returned'}
 
-    type(mock_client).get_price_estimates = mock.PropertyMock(
-            return_value=mock_return)
-    
+    coordinates = core.Coordinates(1, 2, 3, 4)
     result = core.price_collector(mock_client, coordinates)
 
     mock_client.get_price_estimates.assert_called_once_with(
@@ -83,6 +81,8 @@ def test_price_collector():
         end_latitude=coordinates.end_latitude,
         end_longitude=coordinates.end_longitude
     )
+
+    assert result == 'this should be returned'
 
 
 def test_fare_estimate():

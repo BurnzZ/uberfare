@@ -11,10 +11,14 @@ Coordinates = namedtuple('Coordinates', ['start_latitude', 'start_longitude',
 
 
 def get_read_only_client(api_key):
-    """Returns an Uber client only capable of accessing Read-Only resource.
+    """Returns an UberRidesClient only capable of accessing Read-Only resource.
 
     Examples of Read-Only resources are 'products available in an area' and
     'fare estimates'.
+
+    :param api_key: string SERVER token.
+    :return: :class:`UberRidesClient <UberRidesClient>` object
+    :rtype: uber_rides.client.UberRidesClient
     """
 
     session = Session(server_token=api_key)
@@ -22,6 +26,13 @@ def get_read_only_client(api_key):
 
 
 def create_coordinates(origin, dest):
+    """Returns a Coordinates namedtuple using the origin and dest tuples.
+
+    :param origin: tuple formatted as (latitude, longitude).
+    :param dest: tuple formatted as (latitude, longitude).
+    :return: Coordinates object
+    :rtype: namedtuple
+    """
 
     def tokenizer(data):
         return [token.strip() for token in data.split(',')]
@@ -34,6 +45,13 @@ def create_coordinates(origin, dest):
 
 
 def add_timestamp(list_of_dicts):
+    """Returns a new list of dicts with a new a timestamp entry.
+
+    This function avoids modifying the passed list by creating a deepcopy.
+
+    :param list_of_dicts: As it says.
+    :return: list of dicts
+    """
 
     timestamp = {'timestamp': datetime.now().isoformat()}
 
@@ -46,11 +64,18 @@ def add_timestamp(list_of_dicts):
 
 
 def write_to_csv(list_of_dicts, output_file):
+    """Writes the given list of dicts into the provided output file path.
+
+    This assumes that each dictionary in the list has the same keys.
+
+    :param list_of_dicts: As it says.
+    :param output_file: string denoting the file to be created.
+    """
 
     if len(list_of_dicts) == 0:
         return
 
-    with open(output_file, 'a') as f:
+    with open(output_file, 'w') as f:
         dict_writer = DictWriter(f, list_of_dicts[0].keys())
         dict_writer.writerows(list_of_dicts)
 
@@ -59,6 +84,13 @@ def write_to_csv(list_of_dicts, output_file):
 
 
 def collect_price(client, coordinates):
+    """Returns the price estimate data using the given client.
+
+    :param client: :class:`UberRidesClient <UberRidesClient>` object.
+    :param client: :class:`Coordinates <Coordinates>` object.
+    :return: price estimate data
+    :rtype: list of dictionaries
+    """
 
     return client.get_price_estimates(
         start_latitude=coordinates.start_latitude,

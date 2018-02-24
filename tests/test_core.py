@@ -60,7 +60,7 @@ def test_write_to_csv(mock_dictwriter):
     with mock.patch('uber_fare_collector.core.open', m):
         core.write_to_csv(data, output_file)
 
-        m.assert_called_once_with(output_file, 'a')
+        m.assert_called_once_with(output_file, 'w')
 
         mock_dictwriter.assert_called_once_with(m(), data[0].keys())
         mock_dictwriter().writerows.assert_called_once_with(data)

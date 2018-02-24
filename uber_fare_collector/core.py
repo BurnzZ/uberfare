@@ -22,7 +22,8 @@ def get_read_only_client(api_key):
 
 def create_coordinates(origin, dest):
 
-    tokenizer = lambda data: [token.strip() for token in data.split(',')]
+    def tokenizer(data):
+        return [token.strip() for token in data.split(',')]
 
     origin_tokens = tokenizer(origin)
     dest_tokens = tokenizer(dest)

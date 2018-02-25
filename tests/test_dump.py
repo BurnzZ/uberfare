@@ -1,3 +1,4 @@
+from csv import QUOTE_NONNUMERIC
 import unittest.mock as mock
 import uberfare.dump as dump
 
@@ -17,7 +18,8 @@ def test_csv_dumper(mock_dict_writer, mock_open):
         # test if instantiated correctly
         mock_open.assert_called_once_with(output_file, 'a')
         mock_dict_writer.assert_called_once_with(
-                mock_open(), dumper.fieldnames, dialect='unix')
+                mock_open(), dumper.fieldnames, dialect='unix',
+                quoting=QUOTE_NONNUMERIC)
 
         mock_dict_writer.return_value.writeheader.assert_called_once()
 

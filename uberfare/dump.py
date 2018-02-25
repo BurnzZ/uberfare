@@ -1,6 +1,6 @@
 """Contains classes to handle dumping of data to various storage mediums."""
 
-from csv import DictWriter
+from csv import DictWriter, QUOTE_NONNUMERIC
 from datetime import datetime
 
 ESTIMATE_FIELDS = ['localized_display_name', 'distance', 'display_name',
@@ -24,7 +24,7 @@ class CsvDumper:
 
         #: :class:`DictWriter <DictWriter>` to handle writing dicts
         self.dict_writer = DictWriter(self.open_file, self.fieldnames,
-                                      dialect='unix')
+                                      dialect='unix', quoting=QUOTE_NONNUMERIC)
 
     def __enter__(self):
         self._write_csv_headers()

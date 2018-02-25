@@ -1,9 +1,12 @@
 """Establishes the interface for the Command Line."""
 
 import click
+import logging
 import re
 from .core import fare_estimate
 from .environments import UBER_SERVER_TOKEN
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s')
 
 
 def validate_coordinate(ctx, param, value):

@@ -1,7 +1,7 @@
 """Contains classes to handle dumping of data to various storage mediums."""
 
 from csv import DictWriter, QUOTE_NONNUMERIC
-from datetime import datetime
+import logging
 
 
 class CsvDumper:
@@ -21,6 +21,9 @@ class CsvDumper:
         #: :class:`DictWriter <DictWriter>` to handle writing dicts
         self.dict_writer = DictWriter(self.open_file, self.fieldnames,
                                       dialect='unix', quoting=QUOTE_NONNUMERIC)
+
+        #: :class:`Logger <Logger>`
+        self.logger = logging.getLogger(__name__)
 
     def __enter__(self):
         self._write_csv_headers()
@@ -46,5 +49,4 @@ class CsvDumper:
 
         self.dict_writer.writerows(list_of_dicts)
 
-        print("{} | Data collected: {}".format(datetime.now().isoformat(),
-              self.filename))
+        self.logger.info("Data collected and dumped: {}".format(self.filename))

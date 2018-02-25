@@ -102,11 +102,17 @@ def collect_price(client, coordinates):
 
 def fare_estimate(api_key, origin, dest, output_file, check_interval):
 
-    client = get_read_only_client(api_key)
-    coordinates = create_coordinates(origin, dest)
-
-    while True:
+    def collect_and_write():
         raw_data = collect_price(client, coordinates)
         data = add_timestamp(raw_data)
         write_to_csv(data, output_file)
-        sleep(check_interval)
+
+    client = get_read_only_client(api_key)
+    coordinates = create_coordinates(origin, dest)
+
+    if not check_interval:
+        collect_and_write()
+    else:
+        while True:
+            collect_and_write()
+            sleep(check_interval)

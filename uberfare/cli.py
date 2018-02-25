@@ -1,9 +1,9 @@
 """Establishes the interface for the Command Line."""
 
-import re
 import click
-from .environments import UBER_SERVER_TOKEN
+import re
 from .core import fare_estimate
+from .environments import UBER_SERVER_TOKEN
 
 
 def validate_coordinate(ctx, param, value):
@@ -16,12 +16,22 @@ def validate_coordinate(ctx, param, value):
 
 
 @click.group()
-@click.option('--check-interval', default=120, help='Time Interval in seconds '
-              'to check the Uber fares. Default: 120.')
+@click.option('--check-interval', default=0, help='Set the time interval in '
+              'seconds to periodically check the Uber fares. If this isn\'t '
+              'set, the script would simply request once to the Uber API.')
 @click.option('--server-token', help='Server Token to function as API KEY. '
-              'Default: <env var: $UBER_SERVER_TOKEN>')
+              'When set, this overrides the env value in $UBER_SERVER_TOKEN.')
 @click.pass_context
 def cli(ctx, server_token, check_interval):
+    """Uberfare provides CLI-access to the Uber SDK for collecting fares.
+
+    It currently supports the fare 'estimate' where a price range (low, high)
+    is provided instead of the exact fare. Requesting the fare 'estimate' only
+    needs the SERVER Token as the API access.
+
+    On the otherhand, the 'upfront' fare requires OAUTH2 access and currently
+    isn't supported, but probably in the near future.
+    """
     ctx.obj = {}
     ctx.obj['SERVER_TOKEN'] = server_token or UBER_SERVER_TOKEN
     ctx.obj['CHECK_INTERVAL'] = check_interval

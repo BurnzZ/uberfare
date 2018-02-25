@@ -23,13 +23,21 @@ class CsvDumper:
         self.open_file = open(self.filename, 'a')
 
         #: :class:`DictWriter <DictWriter>` to handle writing dicts
-        self.dict_writer = DictWriter(self.open_file, self.fieldnames)
+        self.dict_writer = DictWriter(self.open_file, self.fieldnames,
+                                      dialect='unix')
 
     def __enter__(self):
+        self._write_csv_headers()
         return self
 
     def __exit__(self, *args):
         self.open_file.close()
+
+    def _write_csv_headers(self):
+        """Writes the CSV data headers into the file if it's still empty."""
+
+        if self.open_file.tell() == 0:
+            self.dict_writer.writeheader()
 
     def dump(self, list_of_dicts):
         """Dumps the list of dicts into the CSV file for this instance.

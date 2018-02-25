@@ -29,9 +29,9 @@ def get_read_only_client(api_key):
 def create_coordinates(origin, dest):
     """Returns a Coordinates namedtuple using the origin and dest tuples.
 
-    :param origin: tuple formatted as (latitude, longitude).
-    :param dest: tuple formatted as (latitude, longitude).
-    :return: Coordinates object
+    :param origin: string formatted as 'LATITUDE,LONGITUDE'.
+    :param dest: string formatted as 'LATITUDE,LONGITUDE'.
+    :return: :class:`Coordinates <Coordinates>` object
     :rtype: namedtuple
     """
 
@@ -64,8 +64,8 @@ def add_timestamp(list_of_dicts):
     return list_copy
 
 
-def collect_price(client, coordinates):
-    """Returns the price estimate data using the given client.
+def get_price_estimate(client, coordinates):
+    """Returns the price estimate data for the given `coordinates`.
 
     :param client: :class:`UberRidesClient <UberRidesClient>` object.
     :param client: :class:`Coordinates <Coordinates>` object.
@@ -82,19 +82,27 @@ def collect_price(client, coordinates):
 
 
 def fare_estimate(api_key, origin, dest, output_file, check_interval):
+    """Periodically fetches the fare estimate on the given check_interval.
+
+    After each fetch, the data is then dumped into the CSV 'output_file'.
+
+    :param api_key: string SERVER token.
+    :param origin: string formatted as 'LATITUDE,LONGITUDE'.
+    :param dest: string formatted as 'LATITUDE,LONGITUDE'.
+    :param output_file: string filename where the data will be dumped.
+    :param check_interval: (int) time in seconds between each API call.
+    """
 
     client = get_read_only_client(api_key)
     coordinates = create_coordinates(origin, dest)
 
-    def collect_and_write():
+    while True:
         with CsvDumper(output_file, ESTIMATE_FIELDS) as f:
-            raw_data = collect_price(client, coordinates)
+            raw_data = get_price_estimate(client, coordinates)
             data = add_timestamp(raw_data)
             f.dump(data)
 
-    if not check_interval:
-        collect_and_write()
-    else:
-        while True:
-            collect_and_write()
-            sleep(check_interval)
+        if not check_interval:
+            return
+
+        sleep(check_interval)

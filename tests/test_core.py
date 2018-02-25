@@ -14,7 +14,7 @@ def test_get_read_only_client(mock_session, mock_client):
 
 
 def test_create_coordinates():
-    """It should return an instance of Coordinates with correct attributes."""
+    """It should return a Coordinates instance with correct attributes."""
 
     origin = '142.23,12.3'
     dest = '3.3,4.4'
@@ -46,7 +46,7 @@ def test_add_timestamp(mock_datetime):
     assert result != list_of_dicts
 
 
-def test_collect_price():
+def test_get_price_estimate():
     """It should call the correct method of the passed client using the passed
     coordinates value."""
 
@@ -55,7 +55,7 @@ def test_collect_price():
             'prices': 'this should be returned'}
 
     coordinates = core.Coordinates(1, 2, 3, 4)
-    result = core.collect_price(mock_client, coordinates)
+    result = core.get_price_estimate(mock_client, coordinates)
 
     mock_client.get_price_estimates.assert_called_once_with(
         start_latitude=coordinates.start_latitude,
@@ -65,7 +65,3 @@ def test_collect_price():
     )
 
     assert result == 'this should be returned'
-
-
-def test_fare_estimate():
-    pass

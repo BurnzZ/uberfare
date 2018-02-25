@@ -14,7 +14,7 @@ def validate_coordinate(ctx, param, value):
 
     if not re.match(r'\d+(\.\d+)?,\d+(\.\d+)?', value):
         raise click.BadParameter('Coordinates must be in the format: '
-                                 '123.23,42.1')
+                                 '123.23,42.1 <LATITUDE,LONGITUDE>')
     return value
 
 
@@ -46,7 +46,9 @@ def cli(ctx, server_token, check_interval):
 @click.argument('output-file', metavar='<output file>')
 @click.pass_obj
 def estimate(ctx, origin, destination, output_file):
-    """This retrieves the Uber fare esimates from <origin> to <dest>.
+    """This retrieves the Uber fare estimates from <origin> to <dest>.
+
+    The <origin> and <dest> values must be in the format: LATITUDE,LONGITUDE.
     
     If --check-interval isn't set, this would only fetch to the API once.
     """

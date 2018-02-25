@@ -19,9 +19,9 @@ def validate_coordinate(ctx, param, value):
 
 
 @click.group()
-@click.option('--check-interval', '-ci', default=0, help='Set the interval in '
-              'seconds to periodically check the Uber fares. If this isn\'t '
-              'set, the script would simply request once to the Uber API.')
+@click.option('--check-interval', '-ci', default=0, help='Interval in seconds '
+              'to periodically check the Uber fares. If this isn\'t set, the '
+              'script would simply request once to the Uber API.')
 @click.option('--server-token', '-st', help='Server Token used as an API KEY. '
               'When set, this overrides the env value in $UBER_SERVER_TOKEN.')
 @click.pass_context
@@ -46,8 +46,10 @@ def cli(ctx, server_token, check_interval):
 @click.argument('output-file', metavar='<output file>')
 @click.pass_obj
 def estimate(ctx, origin, destination, output_file):
-    """This periodically retrieves the Uber fare esimates from <origin>
-    to <dest>."""
+    """This retrieves the Uber fare esimates from <origin> to <dest>.
+    
+    If --check-interval isn't set, this would only fetch to the API once.
+    """
 
     fare_estimate(ctx['SERVER_TOKEN'], origin, destination, output_file,
                   ctx['CHECK_INTERVAL'])

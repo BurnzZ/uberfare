@@ -3,10 +3,6 @@
 from csv import DictWriter, QUOTE_NONNUMERIC
 from datetime import datetime
 
-ESTIMATE_FIELDS = ['localized_display_name', 'distance', 'display_name',
-                   'product_id', 'high_estimate', 'low_estimate', 'duration',
-                   'estimate', 'currency_code', 'timestamp']
-
 
 class CsvDumper:
     """This class provides convenience to CSV dumping via Context Manager."""

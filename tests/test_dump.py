@@ -1,6 +1,7 @@
 from csv import QUOTE_NONNUMERIC
 import unittest.mock as mock
 import uberfare.dump as dump
+from uberfare.fields import ESTIMATE_FIELDS
 
 
 @mock.patch('builtins.open', new_callable=mock.mock_open)
@@ -13,7 +14,7 @@ def test_csv_dumper(mock_dict_writer, mock_open):
     # force the file handler to have an empty file
     mock_open.return_value.tell.return_value = 0
 
-    with dump.CsvDumper(output_file, dump.ESTIMATE_FIELDS) as dumper:
+    with dump.CsvDumper(output_file, ESTIMATE_FIELDS) as dumper:
 
         # test if instantiated correctly
         mock_open.assert_called_once_with(output_file, 'a')

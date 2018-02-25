@@ -4,7 +4,8 @@ from datetime import datetime
 from time import sleep
 from uber_rides.session import Session
 from uber_rides.client import UberRidesClient
-from .dump import CsvDumper, ESTIMATE_FIELDS
+from .dump import CsvDumper
+from .fields import ESTIMATE_FIELDS
 
 Coordinates = namedtuple('Coordinates', ['start_latitude', 'start_longitude',
                                          'end_latitude', 'end_longitude'])

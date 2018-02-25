@@ -46,26 +46,6 @@ def test_add_timestamp(mock_datetime):
     assert result != list_of_dicts
 
 
-@mock.patch('uberfare.core.DictWriter')
-def test_write_to_csv(mock_dictwriter):
-    """It should write the data in CSV format with an additional timestamp."""
-
-    data = [
-        {'arg': 't1', 'val': 'x', 'timestamp': '2018-02-19T15:19:39.137995'},
-        {'arg': 't2', 'val': 'y', 'timestamp': '2018-02-19T15:19:39.137995'}
-    ]
-    output_file = 'test-out.csv'
-
-    m = mock.mock_open()
-    with mock.patch('uberfare.core.open', m):
-        core.write_to_csv(data, output_file)
-
-        m.assert_called_once_with(output_file, 'w')
-
-        mock_dictwriter.assert_called_once_with(m(), data[0].keys())
-        mock_dictwriter().writerows.assert_called_once_with(data)
-
-
 def test_collect_price():
     """It should call the correct method of the passed client using the passed
     coordinates value."""

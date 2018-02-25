@@ -1,10 +1,10 @@
 from collections import namedtuple
 from copy import deepcopy
-from csv import DictWriter
 from datetime import datetime
 from time import sleep
 from uber_rides.session import Session
 from uber_rides.client import UberRidesClient
+from .dump import CsvDumper, ESTIMATE_FIELDS
 
 Coordinates = namedtuple('Coordinates', ['start_latitude', 'start_longitude',
                                          'end_latitude', 'end_longitude'])
@@ -63,26 +63,6 @@ def add_timestamp(list_of_dicts):
     return list_copy
 
 
-def write_to_csv(list_of_dicts, output_file):
-    """Writes the given list of dicts into the provided output file path.
-
-    This assumes that each dictionary in the list has the same keys.
-
-    :param list_of_dicts: As it says.
-    :param output_file: string denoting the file to be created.
-    """
-
-    if len(list_of_dicts) == 0:
-        return
-
-    with open(output_file, 'w') as f:
-        dict_writer = DictWriter(f, list_of_dicts[0].keys())
-        dict_writer.writerows(list_of_dicts)
-
-    print("{} | Data collected: {}".format(datetime.now().isoformat(),
-          output_file))
-
-
 def collect_price(client, coordinates):
     """Returns the price estimate data using the given client.
 
@@ -102,13 +82,14 @@ def collect_price(client, coordinates):
 
 def fare_estimate(api_key, origin, dest, output_file, check_interval):
 
-    def collect_and_write():
-        raw_data = collect_price(client, coordinates)
-        data = add_timestamp(raw_data)
-        write_to_csv(data, output_file)
-
     client = get_read_only_client(api_key)
     coordinates = create_coordinates(origin, dest)
+
+    def collect_and_write():
+        with CsvDumper(output_file, ESTIMATE_FIELDS) as f:
+            raw_data = collect_price(client, coordinates)
+            data = add_timestamp(raw_data)
+            f.dump(data)
 
     if not check_interval:
         collect_and_write()

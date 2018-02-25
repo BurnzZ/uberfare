@@ -22,6 +22,7 @@ def validate_coordinate(ctx, param, value):
               'Default: <env var: $UBER_SERVER_TOKEN>')
 @click.pass_context
 def cli(ctx, server_token, check_interval):
+    ctx.obj = {}
     ctx.obj['SERVER_TOKEN'] = server_token or UBER_SERVER_TOKEN
     ctx.obj['CHECK_INTERVAL'] = check_interval
 
@@ -37,7 +38,3 @@ def estimate(ctx, origin, destination, output_file):
 
     fare_estimate(ctx['SERVER_TOKEN'], origin, destination, output_file,
                   ctx['CHECK_INTERVAL'])
-
-
-if __name__ == '__main__':
-    cli(obj={})

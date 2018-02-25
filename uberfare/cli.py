@@ -16,10 +16,10 @@ def validate_coordinate(ctx, param, value):
 
 
 @click.group()
-@click.option('--check-interval', default=0, help='Set the time interval in '
+@click.option('--check-interval', '-ci', default=0, help='Set the interval in '
               'seconds to periodically check the Uber fares. If this isn\'t '
               'set, the script would simply request once to the Uber API.')
-@click.option('--server-token', help='Server Token to function as API KEY. '
+@click.option('--server-token', '-st', help='Server Token used as an API KEY. '
               'When set, this overrides the env value in $UBER_SERVER_TOKEN.')
 @click.pass_context
 def cli(ctx, server_token, check_interval):

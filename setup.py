@@ -26,6 +26,7 @@ setup(
         'Click',
         'uber-rides'
     ],
+    python_requires='~=3.3',
     entry_points={
         'console_scripts': ['uberfare=uberfare:cli']
     },

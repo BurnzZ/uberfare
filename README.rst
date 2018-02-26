@@ -4,6 +4,9 @@ Uberfare
 .. image:: https://travis-ci.org/BurnzZ/uberfare.svg?branch=master
     :target: https://travis-ci.org/BurnzZ/uberfare
 
+.. image:: https://codecov.io/gh/BurnzZ/uberfare/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/BurnzZ/uberfare
+
 This is a simple wrapper to the official Uber Python SDK intended to
 collect data from a given **origin** and **destination** at a specified
 time interval.

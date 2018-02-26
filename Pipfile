@@ -7,8 +7,8 @@ name = "pypi"
 
 [packages]
 
-uber-rides = "*"
-click = "*"
+uber-rides = ">=0.6"
+click = ">=6.7"
 
 
 [dev-packages]

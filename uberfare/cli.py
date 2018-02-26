@@ -49,7 +49,7 @@ def estimate(ctx, origin, destination, output_file):
     """This retrieves the Uber fare estimates from <origin> to <dest>.
 
     The <origin> and <dest> values must be in the format: LATITUDE,LONGITUDE.
-    
+
     If --check-interval isn't set, this would only fetch to the API once.
     """
 

@@ -7,10 +7,13 @@ test:
 	tox
 
 ci:
-	pipenv run pytest
+	pipenv run pytest --cov --cov-config .coveragerc --verbose
 
 lint:
 	pipenv run flake8 uberfare tests
+
+coverage:
+	codecov
 
 clean:
 	rm -rf *.egg-info .eggs dist .pytest_cache .tox

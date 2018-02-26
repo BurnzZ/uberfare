@@ -1,0 +1,6 @@
+[run]
+branch = True
+include = uberfare/*
+omit =
+  uberfare/environments.py
+  uberfare/fields.py

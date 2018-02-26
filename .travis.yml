@@ -7,4 +7,6 @@ install: "make"
 script:
   - "make ci"
   - "make lint"
+after_success:
+  - "make coverage"
 cache: pip

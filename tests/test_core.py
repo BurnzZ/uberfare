@@ -1,6 +1,5 @@
 import os
 from collections import namedtuple
-from shutil import rmtree
 import unittest.mock as mock
 import uberfare.core as core
 
@@ -143,9 +142,7 @@ def test_fare_estimate(mock_datetime, tmpdir):
 
         output_file = tmpdir.join('out.csv')
 
-        core.fare_estimate('API123', '12,34', '56,78', output_file, 0)
+        core.fare_estimate('API123', '12,34', '56,78', str(output_file), 0)
 
         with open(expected_file) as f:
             assert output_file.read() == f.read()
-
-        rmtree(output_file.dirpath())

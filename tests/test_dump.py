@@ -22,7 +22,8 @@ def test_csv_dumper(mock_dict_writer, mock_open):
                 mock_open(), dumper.fieldnames, dialect='unix',
                 quoting=QUOTE_NONNUMERIC)
 
-        mock_dict_writer.return_value.writeheader.assert_called_once()
+        # using this instead of assert_called_once() since python3.5 has a prob
+        assert mock_dict_writer.return_value.writeheader.call_count == 1
 
         dumper.dump(data)
 

@@ -1,0 +1,5 @@
+"localized_display_name","distance","display_name","product_id","high_estimate","low_estimate","duration","estimate","currency_code","timestamp"
+"uberX",5.15,"uberX","ID1-WWWW-XXXX-YYYY-ZZZZZZZZZZZZ",250.0,204.0,1020,"PHP204-250","PHP","T123"
+"uberPOOL",5.15,"uberPOOL","ID2-WWWW-XXXX-YYYY-ZZZZZZZZZZZZ",169.0,136.0,1020,"PHP136-168","PHP","T123"
+"uberXL",5.15,"uberXL","ID3-WWWW-XXXX-YYYY-ZZZZZZZZZZZZ",376.0,306.0,1020,"PHP306-376","PHP","T123"
+"uberBLACK",5.15,"uberBLACK","ID4-WWWW-XXXX-YYYY-ZZZZZZZZZZZZ",291.0,237.0,1020,"PHP237-291","PHP","T123"

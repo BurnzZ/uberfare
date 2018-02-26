@@ -1,3 +1,6 @@
+import os
+from collections import namedtuple
+from shutil import rmtree
 import unittest.mock as mock
 import uberfare.core as core
 
@@ -65,3 +68,84 @@ def test_get_price_estimate():
     )
 
     assert result == 'this should be returned'
+
+
+class FakeUberRidesClient:
+    """Replacing the actual client to have controlled outputs."""
+
+    def __init__(self, session):
+        self.session = session
+
+    def get_price_estimates(*args, **kwargs):
+
+        Response = namedtuple('Response', ['json'])
+
+        return Response(
+            {'prices': [
+                {
+                    'localized_display_name': 'uberX',
+                    'distance': 5.15,
+                    'display_name': 'uberX',
+                    'product_id': 'ID1-WWWW-XXXX-YYYY-ZZZZZZZZZZZZ',
+                    'high_estimate': 250.0,
+                    'low_estimate': 204.0,
+                    'duration': 1020,
+                    'estimate': 'PHP204-250',
+                    'currency_code': 'PHP'
+                }, {
+                    'localized_display_name': 'uberPOOL',
+                    'distance': 5.15,
+                    'display_name': 'uberPOOL',
+                    'product_id': 'ID2-WWWW-XXXX-YYYY-ZZZZZZZZZZZZ',
+                    'high_estimate': 169.0,
+                    'low_estimate': 136.0,
+                    'duration': 1020,
+                    'estimate': 'PHP136-168',
+                    'currency_code': 'PHP'
+                }, {
+                    'localized_display_name': 'uberXL',
+                    'distance': 5.15,
+                    'display_name': 'uberXL',
+                    'product_id': 'ID3-WWWW-XXXX-YYYY-ZZZZZZZZZZZZ',
+                    'high_estimate': 376.0,
+                    'low_estimate': 306.0,
+                    'duration': 1020,
+                    'estimate': 'PHP306-376',
+                    'currency_code': 'PHP'
+                }, {
+                    'localized_display_name': 'uberBLACK',
+                    'distance': 5.15,
+                    'display_name': 'uberBLACK',
+                    'product_id': 'ID4-WWWW-XXXX-YYYY-ZZZZZZZZZZZZ',
+                    'high_estimate': 291.0,
+                    'low_estimate': 237.0,
+                    'duration': 1020,
+                    'estimate': 'PHP237-291',
+                    'currency_code': 'PHP'
+                }
+            ]}
+        )
+
+
+@mock.patch('uberfare.core.datetime')
+def test_fare_estimate(mock_datetime, tmpdir):
+    """It should produce the correct output file."""
+
+    # NOTE: used the patch() as context manager since pytest doesn't work well
+    #   with its fixtures if more than one (1) mock decorator is used.
+
+    with mock.patch('uberfare.core.UberRidesClient', new=FakeUberRidesClient):
+
+        mock_datetime.now().isoformat.return_value = 'T123'
+
+        this_dir = os.path.abspath(os.path.dirname(__file__))
+        expected_file = os.path.join(this_dir, 'artifacts', 'expected_out.csv')
+
+        output_file = tmpdir.join('out.csv')
+
+        core.fare_estimate('API123', '12,34', '56,78', output_file, 0)
+
+        with open(expected_file) as f:
+            assert output_file.read() == f.read()
+
+        rmtree(output_file.dirpath())

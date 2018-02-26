@@ -1,5 +1,8 @@
-Overview
+Uberfare
 ========
+
+.. image:: https://travis-ci.org/BurnzZ/uberfare.svg?branch=master
+    :target: https://travis-ci.org/BurnzZ/uberfare
 
 This is a simple wrapper to the official Uber Python SDK intended to
 collect data from a given **origin** and **destination** at a specified

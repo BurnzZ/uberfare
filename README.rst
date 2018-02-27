@@ -21,6 +21,23 @@ I’m using this tool in order to gather data and then evaluate when’s the
 best time to leave the house and book an Uber ride to work, and
 vice-versa.
 
+Requirements
+~~~~~~~~~~~~
+
+* Python 3.4+
+
+Installation
+~~~~~~~~~~~~
+
+I'd recommend installing it via `pipenv <http://pipenv.org/>`_:
+
+.. code-block:: bash
+
+    $ pipenv install uberfare
+    $
+    $ # or via the usual pip3
+    $ pip3 install uberfare
+
 API Key
 ~~~~~~~
 

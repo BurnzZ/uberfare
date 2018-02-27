@@ -40,7 +40,11 @@ setup(
         'Topic :: Software Development',
         'Topic :: Scientific/Engineering :: Information Analysis',
         'Topic :: System :: Monitoring',
-        'Programming Language :: Python :: 3 :: Only',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: CPython'
     }
 )

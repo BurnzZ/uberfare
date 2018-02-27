@@ -43,7 +43,7 @@ def cli(ctx, server_token, check_interval):
 @cli.command(short_help='retrieves the Uber fare estimates.')
 @click.argument('origin', callback=validate_coordinate, metavar='<origin>')
 @click.argument('destination', callback=validate_coordinate, metavar='<dest>')
-@click.option('--output-file', help='Writes the raw output to the specified '
+@click.option('--output-file', '-o', help='Write the RAW output to the given '
               'output filepath in a CSV format (instead of simply STDOUT).')
 @click.pass_obj
 def estimate(ctx, origin, destination, output_file):

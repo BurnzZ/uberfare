@@ -32,14 +32,15 @@ setup(
         'console_scripts': ['uberfare=uberfare:cli']
     },
     classifiers={
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
-        'Topic :: Software Development :: Build Tools',
+        'Topic :: Software Development',
+        'Topic :: Scientific/Engineering :: Information Analysis',
+        'Topic :: System :: Monitoring',
         'Programming Language :: Python :: 3 :: Only',
-        'Programming Language :: Python :: Implementation :: CPython',
-        'Topic :: Software Development'
+        'Programming Language :: Python :: Implementation :: CPython'
     }
 )

@@ -34,7 +34,6 @@ I'd recommend installing it via `pipenv <http://pipenv.org/>`_:
 .. code-block:: bash
 
     $ pipenv install uberfare
-    $
     $ # or via the usual pip
     $ pip3 install uberfare
 

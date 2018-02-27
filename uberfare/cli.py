@@ -43,14 +43,17 @@ def cli(ctx, server_token, check_interval):
 @cli.command(short_help='retrieves the Uber fare estimates.')
 @click.argument('origin', callback=validate_coordinate, metavar='<origin>')
 @click.argument('destination', callback=validate_coordinate, metavar='<dest>')
-@click.argument('output-file', metavar='<output file>')
+@click.option('--output-file', help='Writes the raw output to the specified '
+              'output filepath in a CSV format (instead of simply STDOUT).')
 @click.pass_obj
 def estimate(ctx, origin, destination, output_file):
-    """This retrieves the Uber fare estimates from <origin> to <dest>.
+    """Retrieves the Uber fare estimates from <origin> to <dest> on STDOUT.
 
     The <origin> and <dest> values must be in the format: LATITUDE,LONGITUDE.
 
     If --check-interval isn't set, this would only fetch to the API once.
+    You can also write the raw data coming from the server into a *.csv file
+    via the --output-file flag.
     """
 
     fare_estimate(ctx['SERVER_TOKEN'], origin, destination, output_file,

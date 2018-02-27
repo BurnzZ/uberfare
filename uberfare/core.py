@@ -4,8 +4,8 @@ from datetime import datetime
 from time import sleep
 from uber_rides.session import Session
 from uber_rides.client import UberRidesClient
-from .dump import CsvDumper
-from .fields import ESTIMATE_FIELDS
+from .dump import dump_to
+from .fields import ESTIMATE_CSV_FIELDS, ESTIMATE_STDOUT_FIELDS
 
 Coordinates = namedtuple('Coordinates', ['start_latitude', 'start_longitude',
                                          'end_latitude', 'end_longitude'])
@@ -81,26 +81,30 @@ def get_price_estimate(client, coordinates):
     ).json['prices']
 
 
-def fare_estimate(api_key, origin, dest, output_file, check_interval):
-    """Periodically fetches the fare estimate on the given check_interval.
-
-    After each fetch, the data is then dumped into the CSV 'output_file'.
+def fare_estimate(api_key, origin, dest, output_file=None, check_interval=0):
+    """Fetches the fare estimate data and logs it to either CSV file or STDOUT.
 
     :param api_key: string SERVER token.
     :param origin: string formatted as 'LATITUDE,LONGITUDE'.
     :param dest: string formatted as 'LATITUDE,LONGITUDE'.
-    :param output_file: string filename where the data will be dumped.
-    :param check_interval: (int) time in seconds between each API call.
+    :param output_file: (optional) string filename where the data will be
+        written. If omitted, the data will be logged into STDOUT.
+    :param check_interval: (optional) integer time in seconds between each API
+        call. If omitted, this would only result to one (1) fetch.
     """
 
     client = get_read_only_client(api_key)
     coordinates = create_coordinates(origin, dest)
 
     while True:
-        with CsvDumper(output_file, ESTIMATE_FIELDS) as f:
-            raw_data = get_price_estimate(client, coordinates)
-            data = add_timestamp(raw_data)
-            f.dump(data)
+        raw_data = get_price_estimate(client, coordinates)
+
+        if output_file:
+            timestampped_data = add_timestamp(raw_data)
+            dump_to('csv', timestampped_data, output_file=output_file,
+                    fields=ESTIMATE_CSV_FIELDS)
+        else:
+            dump_to('stdout', raw_data, fields=ESTIMATE_STDOUT_FIELDS)
 
         if not check_interval:
             return

@@ -127,11 +127,11 @@ class FakeUberRidesClient:
 
 
 @mock.patch('uberfare.core.datetime')
-def test_fare_estimate(mock_datetime, tmpdir):
+def test_fare_estimate_output_file(mock_datetime, tmpdir):
     """It should produce the correct output file."""
 
-    # NOTE: used the patch() as context manager since pytest doesn't work well
-    #   with its fixtures if more than one (1) mock decorator is used.
+    # NOTE: Used the patch() as context manager since pytest doesn't work well
+    #   with its fixtures if a mock decorator is used alongside with it.
 
     with mock.patch('uberfare.core.UberRidesClient', new=FakeUberRidesClient):
 
@@ -142,7 +142,42 @@ def test_fare_estimate(mock_datetime, tmpdir):
 
         output_file = tmpdir.join('out.csv')
 
-        core.fare_estimate('API123', '12,34', '56,78', str(output_file), 0)
+        core.fare_estimate('API123', '12,34', '56,78',
+                           output_file=str(output_file))
 
         with open(expected_file) as f:
             assert output_file.read() == f.read()
+
+
+def test_fare_estimate_output_stdout(caplog):
+    """It should produce the correct output file."""
+
+    # NOTE: Used the patch() as context manager since pytest doesn't work well
+    #   with its fixtures if a mock decorator is used alongside with it.
+
+    with mock.patch('uberfare.core.UberRidesClient', new=FakeUberRidesClient):
+
+        core.fare_estimate('API123', '12,34', '56,78')
+
+        # We're only expecting one instance where the data is logged
+        assert len(caplog.record_tuples) == 1
+
+        logger_name = caplog.record_tuples[0][0]
+        log_output = caplog.record_tuples[0][2]
+
+        # The logger must come from this module
+        assert logger_name == 'uberfare.dump'
+
+        assert log_output == """
++--------------+------------+----------+----------+
+| display_name |  estimate  | distance | duration |
++--------------+------------+----------+----------+
+|    uberX     | PHP204-250 |   5.15   |   1020   |
++--------------+------------+----------+----------+
+|   uberPOOL   | PHP136-168 |   5.15   |   1020   |
++--------------+------------+----------+----------+
+|    uberXL    | PHP306-376 |   5.15   |   1020   |
++--------------+------------+----------+----------+
+|  uberBLACK   | PHP237-291 |   5.15   |   1020   |
++--------------+------------+----------+----------+
+"""

@@ -1,6 +1,15 @@
 Uberfare
 ========
 
+.. image:: https://img.shields.io/pypi/v/uberfare.svg
+    :target: https://pypi.python.org/pypi/uberfare
+
+.. image:: https://img.shields.io/pypi/l/uberfare.svg
+    :target: https://pypi.python.org/pypi/uberfare
+
+.. image:: https://img.shields.io/pypi/pyversions/uberfare.svg
+    :target: https://pypi.python.org/pypi/uberfare
+
 .. image:: https://travis-ci.org/BurnzZ/uberfare.svg?branch=master
     :target: https://travis-ci.org/BurnzZ/uberfare
 

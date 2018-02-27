@@ -35,14 +35,18 @@ I'd recommend installing it via `pipenv <http://pipenv.org/>`_:
 
     $ pipenv install uberfare
     $
-    $ # or via the usual pip3
+    $ # or via the usual pip
     $ pip3 install uberfare
 
 API Key
 ~~~~~~~
 
 Get your ``Server Token`` API Key by creating an app at:
-`developer.uber.com/dashboard <https://developer.uber.com/dashboard>`__
+`developer.uber.com/dashboard <https://developer.uber.com/dashboard>`__,
+and then:
+
+* Create or Select an app
+* Copy the **Server Token** value in the **Auth** page
 
 Before using this package, export your ``Server Token`` as:
 ``export UBER_SERVER_TOKEN=<Server Token>``. You can however, override
@@ -72,6 +76,9 @@ CLI
     >>> # (Where origin and destination are in the <LATITUDE,LONGITUDE> format)
     >>> uberfare estimate 14.55,121.05 14.52,121.01
 
+    >>> # To save all the RAW data in a CSV file, you can do:
+    >>> uberfare estimate 14.55,121.05 14.52,121.01 --output-file output.csv
+
 .. figure:: docs/img/demo-1.gif
    :alt: CLI demo
 
@@ -81,9 +88,6 @@ CLI
     >>> # --check-interval <time in seconds> flag (short -ci):
     >>> uberfare --check-interval 120 estimate 14.55,121.05 14.52,121.01
     >>> uberfare -ci 120 estimate 14.55,121.05 14.52,121.01
-
-    >>> # To save all the RAW data in a CSV file, you can do:
-    >>> uberfare estimate 14.55,121.05 14.52,121.01 --output-file output.csv
 
     >>> # To safely save the data in long periods of time, do:
     >>> uberfare --check-interval 120 estimate 14.55,121.05 14.52,121.01 --output-file output.csv

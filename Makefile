@@ -11,6 +11,7 @@ ci:
 
 lint:
 	pipenv run flake8 uberfare tests
+	pipenv run python3 setup.py check -r -s
 
 coverage:
 	codecov

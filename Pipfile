@@ -7,7 +7,7 @@ name = "pypi"
 
 [packages]
 
-uber_rides = ">=0.6"
+uber-rides = ">=0.6"
 click = ">=6.7"
 beautifultable = "*"
 
@@ -19,3 +19,5 @@ pytest = ">=3.4"
 tox = "*"
 codecov = "*"
 pytest-cov = "*"
+twine = "*"
+readme-renderer = "*"

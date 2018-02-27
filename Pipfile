@@ -7,13 +7,14 @@ name = "pypi"
 
 [packages]
 
-uber-rides = ">=0.6"
+uber_rides = ">=0.6"
 click = ">=6.7"
+beautifultable = "*"
 
 
 [dev-packages]
 
-pytest = "*"
+pytest = ">=3.4"
 "flake8" = "*"
 tox = "*"
 codecov = "*"

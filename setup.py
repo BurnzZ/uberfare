@@ -24,7 +24,8 @@ setup(
     py_modules=['uberfare'],
     install_requires=[
         'Click',
-        'uber-rides'
+        'uber-rides',
+        'beautifultable'
     ],
     python_requires='~=3.4',
     entry_points={

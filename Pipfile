@@ -14,7 +14,7 @@ beautifultable = "*"
 
 [dev-packages]
 
-pytest = "*"
+pytest = ">=3.4"
 "flake8" = "*"
 tox = "*"
 codecov = "*"

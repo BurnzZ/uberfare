@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s')
 def validate_coordinate(ctx, param, value):
     """Ensures the passed parameter is formatted: <LATITUDE>,<LONGITUDE>"""
 
-    if not re.match(r'\d+(\.\d+)?,\d+(\.\d+)?', value):
+    if not re.search(r'-?\d+(.\d+)?\,-?\d+(.\d+)?', value, re.DOTALL):
         raise click.BadParameter('Coordinates must be in the format: '
                                  '123.23,42.1 <LATITUDE,LONGITUDE>')
     return value
